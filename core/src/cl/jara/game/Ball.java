@@ -75,6 +75,7 @@ public class Ball {
 					// se avisa a la nueva plataforma que entramos.
 					lastCollide = platform;
 					lastCollide.onCollisionEnter(this, x - platform.x);
+					ParticleSystem.genCone(x, y, 10);
 				}
 			} else {
 				// avisamos que ya salimos de la plataforma si

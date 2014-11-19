@@ -1,5 +1,6 @@
 package cl.jara.game;
 
+import cl.jara.errors.NotAValidCopyError;
 import cl.jara.platforms.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -24,11 +25,9 @@ public class PlatformSystem {
 			new ExtremesDeathPlatform(0, 0),
 			new LeftDeathPlatform(0, 0),
 			new RightDeathPlatform(0, 0),
+			new LeftBlockingPlatform(0, 0),
+			new RightBlockingPlatform(0, 0),
 	};
-
-	public PlatformSystem() {
-
-	}
 
 	public void update() {
 		if(appearingTimer <= 0) {
@@ -60,6 +59,14 @@ public class PlatformSystem {
 		float x = random.nextFloat() * (View.width - platformsTemplates[index].getWidth());
 		float y = 0;
 
-		platforms.add(platformsTemplates[index].copy(x, y));
+		Platform platform = platformsTemplates[index].copy(x, y);
+
+		if(platform == null) {
+			new NotAValidCopyError().printStackTrace();
+			System.out.println("Platform: " + platformsTemplates[index].getClass());
+			System.exit(0);
+		}
+
+		platforms.add(platform);
 	}
 }

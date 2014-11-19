@@ -18,7 +18,6 @@ public class Game implements Screen {
 			new Color(0.18359375f, 0.30859375f, 0.30859375f, 1),	// dark slate green.
 			new Color(0.6953125f, 0.1328125f, 0.01171875f, 1),		// rojo.
 			new Color(0.1796875f, 0.54296875f, 0.33984375f, 1),		// sea green.
-			new Color(0.99609375f, 0.83984375f, 0.0f, 1),			// gold.
 			new Color(0.25f, 0.25f, 0.25f, 1),						// grey.
 			new Color(0.3828125f, 0.27734375f, 0.1953125f, 1),		// brown.
 			new Color(0.703125f, 0.8203125f, 0.88671875f, 1),		// celeste.
@@ -69,6 +68,7 @@ public class Game implements Screen {
 
 		ball.render(shape);
 		platformSystem.render(shape);
+		ParticleSystem.render(shape);
 	}
 
 	public void update(float delta) {
@@ -92,6 +92,7 @@ public class Game implements Screen {
 			colorChangeTimer = COLOR_CHANGE_FREQ;
 		}
 
+		ParticleSystem.update(platformSystem.platforms);
 		Input.update();
 	}
 
