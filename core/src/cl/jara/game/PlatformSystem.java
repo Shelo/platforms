@@ -3,6 +3,7 @@ package cl.jara.game;
 import cl.jara.errors.NotAValidCopyError;
 import cl.jara.platforms.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -56,8 +57,9 @@ public class PlatformSystem {
 	public void spawn() {
 		int index = random.nextInt(platformsTemplates.length);
 
-		float x = random.nextFloat() * (View.width - platformsTemplates[index].getWidth());
-		float y = 0;
+		float x = MathUtils.random(Ball.RADIUS * 2,
+				View.width - platformsTemplates[index].getWidth() - Ball.RADIUS * 2);
+		float y = - 100;
 
 		Platform platform = platformsTemplates[index].copy(x, y);
 

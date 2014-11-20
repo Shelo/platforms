@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Ball {
 	public static final float BOUNCE_HEIGHT = 500;
-	public static final float RADIUS = 15;
+	public static final float RADIUS = 10;
 	public static final float SPEED = 350;
 
 	public float vx;
@@ -75,7 +75,7 @@ public class Ball {
 					// se avisa a la nueva plataforma que entramos.
 					lastCollide = platform;
 					lastCollide.onCollisionEnter(this, x - platform.x);
-					ParticleSystem.genCone(x, y, 10);
+					ParticleSystem.genCone(x, y, 15);
 				}
 			} else {
 				// avisamos que ya salimos de la plataforma si
@@ -86,6 +86,12 @@ public class Ball {
 			}
 
 		x += vx * Time.delta;
+
+		if(x < Ball.RADIUS)
+			x = Ball.RADIUS;
+
+		if(x > View.width - Ball.RADIUS)
+			x = View.width - Ball.RADIUS;
 	}
 
 	public void freeze() {

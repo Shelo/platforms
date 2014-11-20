@@ -22,6 +22,17 @@ public class Particle {
 		lifeTime = MathUtils.random(4.0f, 8.0f);
 	}
 
+	public Particle reset(float x, float y, float vx, float vy) {
+		this.vx = vx;
+		this.vy = vy;
+		this.x	= x;
+		this.y	= y;
+
+		lifeTime = MathUtils.random(4.0f, 8.0f);
+
+		return this;
+	}
+
 	public void update() {
 		vy += Game.GRAVITY;
 

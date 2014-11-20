@@ -10,7 +10,8 @@ public class Input implements InputProcessor {
 	public static boolean leftButtonDown;
 	public static boolean passThrowButton;
 
-	private float scrollInitY;
+	private static float touchInitY;
+	private static float touchDraggedY;
 
 	// crear singleton.
 	static { instance = new Input(); }
@@ -18,10 +19,15 @@ public class Input implements InputProcessor {
 	public static void update() {
 		if(rightButtonDown)
 			horizontalAxis += (1 - horizontalAxis) * 0.1f;
-		else if(leftButtonDown)
+
+		if(leftButtonDown)
 			horizontalAxis += ((- 1) - horizontalAxis) * 0.1f;
-		else
+
+		if(!leftButtonDown && !rightButtonDown)
 			horizontalAxis += (0 - horizontalAxis) * 0.1f;
+
+		if(touchInitY - touchDraggedY > 50)
+			horizontalAxis = 0;
 
 		passThrowButton = false;
 	}
@@ -29,7 +35,8 @@ public class Input implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		screenY = (int) View.height - screenY;
-		scrollInitY = screenY;
+		touchDraggedY 	= screenY;
+		touchInitY 		= screenY;
 
 		if(screenX > View.width / 2)
 			rightButtonDown = true;
@@ -43,15 +50,32 @@ public class Input implements InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		screenY = (int) View.height - screenY;
 
-		if(screenX > View.width / 2)
+		if(screenX > View.width / 2) {
 			rightButtonDown = false;
-		else
+		} else {
 			leftButtonDown = false;
+		}
 
-		if(scrollInitY - screenY > 50)
+		if(touchInitY - screenY > 50) {
 			passThrowButton = true;
+			touchDraggedY = 0;
+			touchInitY = 0;
+		}
 
-		scrollInitY = -1;
+		touchInitY = -1;
+		return false;
+	}
+
+	@Override public boolean touchDragged(int screenX, int screenY, int pointer) {
+		touchDraggedY = View.height - screenY;
+
+		if(screenX > View.width / 2) {
+			rightButtonDown = true;
+			leftButtonDown = false;
+		} else {
+			leftButtonDown = true;
+			rightButtonDown = false;
+		}
 
 		return false;
 	}
@@ -78,7 +102,6 @@ public class Input implements InputProcessor {
 		return false;
 	}
 
-	@Override public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
 	@Override public boolean mouseMoved(int screenX, int screenY) { return false; }
 	@Override public boolean keyTyped(char character) { return false; }
 	@Override public boolean scrolled(int amount) { return false; }

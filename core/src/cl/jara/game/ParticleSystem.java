@@ -18,6 +18,7 @@ public class ParticleSystem {
 			particle.update();
 
 			if(particle.lifeTime <= 0) {
+				Pool.addParticle(particle);
 				particles.remove(i);
 				continue;
 			}
@@ -45,6 +46,6 @@ public class ParticleSystem {
 
 	public static void genCone(float x, float y, int ammount) {
 		for(float t = (float) Math.PI / 4; t < Math.PI * 3 / 4; t += (Math.PI / 2 + 1) / ammount)
-			particles.add(new Particle(x, y, (float) Math.cos(t) * 300, (float) Math.sin(t) * 400));
+			particles.add(Pool.requestParticle(x, y, (float) Math.cos(t) * 300, (float) Math.sin(t) * 400));
 	}
 }
