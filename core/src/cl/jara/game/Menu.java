@@ -115,11 +115,9 @@ public class Menu implements Screen, InputProcessor {
 			Main.instance.toGame();
 		} else if(screenY < - buttonBounds.height + 40) {
 			if(screenX < View.width / 2) {
-				showScreen(new Achievements());
+				Main.instance.actionResolver.showAchievementsGPGS();
 			}
 		}
-
-		System.out.println(screenX < View.width / 2);
 
 		return false;
 	}

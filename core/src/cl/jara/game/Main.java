@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Main extends com.badlogic.gdx.Game {
+	ActionResolver actionResolver;
 	public static final float COLOR_CHANGE_FREQ = 5;
 
 	public static Main instance;
@@ -26,6 +27,10 @@ public class Main extends com.badlogic.gdx.Game {
 	int nextColorIndex;
 	int colorIndex;
 
+	public Main(ActionResolver actionResolver) {
+		this.actionResolver = actionResolver;
+	}
+
 	@Override
 	public void create() {
 		instance = this;
@@ -42,6 +47,11 @@ public class Main extends com.badlogic.gdx.Game {
 	}
 
 	public void toGame() {
+		if(actionResolver.getSignedInGPGS())
+			actionResolver.unlockAchievementGPGS("CgkI6JzeotQdEAIQAg");
+
+		System.out.println("TO GAME : " + actionResolver.getSignedInGPGS());
+
 		setScreen(new Game());
 	}
 
