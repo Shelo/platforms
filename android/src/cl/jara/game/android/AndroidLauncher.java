@@ -1,12 +1,11 @@
 package cl.jara.game.android;
 
 import android.os.Bundle;
-
+import cl.jara.game.Main;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import cl.jara.game.Main;
 
-public class AndroidLauncher extends AndroidApplication {
+public class AndroidLauncher extends AndroidApplication  {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
