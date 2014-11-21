@@ -28,6 +28,7 @@ public class PlatformSystem {
 			new RightDeathPlatform(0, 0),
 			new LeftBlockingPlatform(0, 0),
 			new RightBlockingPlatform(0, 0),
+			new ZigZagPlatform(0, 0),
 	};
 
 	public void update() {
@@ -69,6 +70,11 @@ public class PlatformSystem {
 			System.exit(0);
 		}
 
+		platform.onCreate();
+		platforms.add(platform);
+	}
+
+	public void add(Platform platform) {
 		platforms.add(platform);
 	}
 }

@@ -1,8 +1,8 @@
 package cl.jara.platforms;
 
 import cl.jara.game.Ball;
-import cl.jara.game.Game;
 import cl.jara.game.Input;
+import cl.jara.game.Main;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class PassThroughPlatform extends Platform {
@@ -12,7 +12,7 @@ public class PassThroughPlatform extends Platform {
 
 	@Override
 	public void render(ShapeRenderer shape) {
-		shape.setColor(Game.getDrawColor());
+		shape.setColor(Main.getDrawColor());
 		shape.rect(x, y, getWidth(), getHeight());
 	}
 

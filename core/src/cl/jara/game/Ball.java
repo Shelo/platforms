@@ -19,6 +19,7 @@ public class Ball {
 
 	Platform lastCollide;
 	boolean froze;
+	boolean death;
 
 	public Ball(float x, float y) {
 		this.x = x;
@@ -49,36 +50,39 @@ public class Ball {
 					continue;
 
 				// encontrar por cual lado se chocó.
-				if (x - RADIUS > platform.x + platform.getWidth()) {
+				if (x >= platform.x + platform.getWidth()) {
 					// derecha.
-					vx = 0;
 					x = platform.x + platform.getWidth() + RADIUS;
-				} else if (x + RADIUS < platform.x) {
-					// izquierda.
 					vx = 0;
+				} else if (x <= platform.x) {
+					// izquierda.
 					x = platform.x - RADIUS;
+					vx = 0;
 				} else {
 					y = platform.y + platform.getHeight() + RADIUS;
 					vy = 0;
 				}
 
-				// activar triggers.
-				if (lastCollide == platform)
-					// se reconoce la misma plataforma anterior, le avisamos que seguimos sobre ella.
-					lastCollide.onCollisionStay(this, x - platform.x);
-				else {
-					// son distintas plataformas.
-					if (lastCollide != null)
-						// se avisa a la plataforma anterior que salimos.
-						lastCollide.onCollisionExit(this);
+				if(platform.isPlatform()) {
+					// activar triggers.
+					if (lastCollide == platform)
+						// se reconoce la misma plataforma anterior, le avisamos que seguimos sobre ella.
+						lastCollide.onCollisionStay(this, x - platform.x);
+					else {
+						// son distintas plataformas.
+						if (lastCollide != null)
+							// se avisa a la plataforma anterior que salimos.
+							lastCollide.onCollisionExit(this);
 
-					// se avisa a la nueva plataforma que entramos.
-					lastCollide = platform;
-					lastCollide.onCollisionEnter(this, x - platform.x);
-					ParticleSystem.genCone(x, y, 15);
+						// se avisa a la nueva plataforma que entramos.
+						lastCollide = platform;
+						lastCollide.onCollisionEnter(this, x - platform.x);
+						if(lastCollide.isParticleSpawner())
+							ParticleSystem.genCone(x, y, 15);
+					}
 				}
 			} else {
-				// avisamos que ya salimos de la plataforma si
+				// avisamos que ya salimos de la plataforma si estabamos en ella y no colisionan.
 				if (lastCollide == platform) {
 					lastCollide.onCollisionExit(this);
 					lastCollide = null;
@@ -113,5 +117,13 @@ public class Ball {
 		shape.begin(ShapeRenderer.ShapeType.Filled);
 		shape.circle(x, y, RADIUS);
 		shape.end();
+	}
+
+	public void kill() {
+		death = true;
+	}
+
+	public boolean isDeath() {
+		return death;
 	}
 }

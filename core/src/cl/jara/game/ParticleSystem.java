@@ -48,4 +48,11 @@ public class ParticleSystem {
 		for(float t = (float) Math.PI / 4; t < Math.PI * 3 / 4; t += (Math.PI / 2 + 1) / ammount)
 			particles.add(Pool.requestParticle(x, y, (float) Math.cos(t) * 300, (float) Math.sin(t) * 400));
 	}
+
+	public static void clear() {
+		for(int i = particles.size() - 1; i > - 1; i--) {
+			Pool.addParticle(particles.get(i));
+			particles.remove(i);
+		}
+	}
 }

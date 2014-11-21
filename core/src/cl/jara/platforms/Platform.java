@@ -10,6 +10,8 @@ public abstract class Platform {
 	public float x;
 	public float y;
 
+	protected boolean spawnParticles = true;
+	protected boolean platform = true;
 	protected boolean solid = true;
 
 	public Platform(float x, float y) {
@@ -21,9 +23,19 @@ public abstract class Platform {
 		return solid;
 	}
 
+	public boolean isPlatform() {
+		return platform;
+	}
+
+	public boolean isParticleSpawner() {
+		return spawnParticles;
+	}
+
 	public void simpleMove() {
 		y += BASE_SPEED * Time.delta;
 	}
+
+	public void onCreate() {}
 
 	public abstract void onCollisionEnter(Ball ball, float ballX);
 	public abstract void onCollisionStay(Ball ball, float ballX);

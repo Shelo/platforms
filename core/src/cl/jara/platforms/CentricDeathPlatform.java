@@ -1,8 +1,8 @@
 package cl.jara.platforms;
 
 import cl.jara.game.Ball;
-import cl.jara.game.Game;
 import cl.jara.game.Input;
+import cl.jara.game.Main;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -14,12 +14,19 @@ public class CentricDeathPlatform extends Platform {
 	}
 
 	@Override
-	public void onCollisionEnter(Ball ball, float ballX) {
+	public void onCreate() {
 
 	}
 
 	@Override
+	public void onCollisionEnter(Ball ball, float ballX) {
+	}
+
+	@Override
 	public void onCollisionStay(Ball ball, float ballX) {
+		if(ballX > EXTREME_MARGIN && ballX < getWidth() - EXTREME_MARGIN)
+			ball.kill();
+
 		if(Input.passThrowButton) {
 			if(ballX < EXTREME_MARGIN)
 				solid = false;
@@ -35,7 +42,7 @@ public class CentricDeathPlatform extends Platform {
 
 	@Override
 	public void render(ShapeRenderer shape) {
-		shape.setColor(Game.getDrawColor());
+		shape.setColor(Main.getDrawColor());
 		shape.rect(x, y, EXTREME_MARGIN, getHeight());
 		shape.rect(x + getWidth(), y, - EXTREME_MARGIN, getHeight());
 

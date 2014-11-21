@@ -1,7 +1,7 @@
 package cl.jara.platforms;
 
 import cl.jara.game.Ball;
-import cl.jara.game.Game;
+import cl.jara.game.Main;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -34,7 +34,7 @@ public class RightPlatform extends Platform {
 		shape.setColor(Color.WHITE);
 		shape.rect(x, y, getWidth(), getHeight());
 
-		shape.setColor(Game.getDrawColor());
+		shape.setColor(Main.getDrawColor());
 		shape.rect(x + indicatorX, y + indicatorMargin, getHeight(), getHeight() - indicatorMargin * 2);
 	}
 

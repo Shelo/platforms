@@ -13,16 +13,8 @@ public class LeftDeathPlatform extends Platform {
 	public void onCollisionEnter(Ball ball, float ballX) {
 		if(ballX > getWidth() / 2)
 			ball.bounce();
-	}
-
-	@Override
-	public void onCollisionStay(Ball ball, float ballX) {
-
-	}
-
-	@Override
-	public void onCollisionExit(Ball ball) {
-
+		else
+			ball.kill();
 	}
 
 	@Override
@@ -53,4 +45,7 @@ public class LeftDeathPlatform extends Platform {
 	public Platform copy(float x, float y) {
 		return new LeftDeathPlatform(x, y);
 	}
+
+	@Override public void onCollisionStay(Ball ball, float ballX) { }
+	@Override public void onCollisionExit(Ball ball) { }
 }

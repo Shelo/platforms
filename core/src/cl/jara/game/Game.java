@@ -2,40 +2,31 @@ package cl.jara.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 
 public class Game implements Screen {
-	public static final float COLOR_CHANGE_FREQ = 5;
+	public static Game instance;
+
 	public static final float GRAVITY = -9.8f;
 
-	private static Color drawingColor;
-	private static Color currentColor;
-	private static Color[] colors = {
-			new Color(0.23828125f, 0.34765625f, 0.66796875f, 1),	// azul.
-			new Color(0.18359375f, 0.30859375f, 0.30859375f, 1),	// dark slate green.
-			new Color(0.6953125f, 0.1328125f, 0.01171875f, 1),		// rojo.
-			new Color(0.1796875f, 0.54296875f, 0.33984375f, 1),		// sea green.
-			new Color(0.25f, 0.25f, 0.25f, 1),						// grey.
-			new Color(0.3828125f, 0.27734375f, 0.1953125f, 1),		// brown.
-			new Color(0.703125f, 0.8203125f, 0.88671875f, 1),		// celeste.
-	};
-
-	float colorChangeTimer;
-	int nextColorIndex;
-	int colorIndex;
-
 	OrthographicCamera camera;
-	PlatformSystem platformSystem;
 	ShapeRenderer shape;
+	SpriteBatch batch;
+	float score;
 	Ball ball;
 
+	public PlatformSystem platformSystem;
+
 	public Game() {
+		instance = this;
+
 		camera	= new OrthographicCamera();
 		shape 	= new ShapeRenderer();
+		batch	= new SpriteBatch();
 
 		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -45,16 +36,12 @@ public class Game implements Screen {
 		// inicializar sistemas.
 		platformSystem = new PlatformSystem();
 
-		drawingColor = new Color();
-
-		// establecer variables.
-		nextColorIndex 	= MathUtils.random(colors.length - 1);
-		colorIndex 		= MathUtils.random(colors.length - 1);
-
-		colorChangeTimer = COLOR_CHANGE_FREQ;
+		Input.reset();
 
 		// establecer configuraciones.
 		Gdx.input.setInputProcessor(Input.instance);
+
+		ParticleSystem.clear();
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 	}
@@ -67,10 +54,35 @@ public class Game implements Screen {
 		// limpiar buffers.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		shape.setColor(currentColor);
+		shape.setColor(Main.getCurrentColor());
 		shape.begin(ShapeRenderer.ShapeType.Filled);
 		shape.rect(0, 0, View.width, View.height);
 		shape.end();
+
+		BitmapFont.TextBounds bounds = Assets.gameScore.getBounds((int) score + "");
+		float height 	= bounds.height;
+		float width 	= bounds.width;
+
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+		shape.begin(ShapeRenderer.ShapeType.Filled);
+		shape.setColor(0, 0, 0, 0.25f);
+
+		shape.circle(View.width / 2, View.height / 2, View.width / 2 - 50);
+		if((int) score % 2 == 0)
+			shape.arc(View.width / 2, View.height / 2, View.width / 2 - 50, 0, (score - (int) score) * 360);
+		else
+			shape.arc(View.width / 2, View.height / 2, View.width / 2 - 50, (score - (int) score) * 360,
+					(1 - (score - (int) score)) * 360);
+		shape.end();
+
+		batch.begin();
+		Assets.gameScore.setColor(0, 0, 0, 0.25f);
+		Assets.gameScore.draw(batch, (int) score + "", (View.width - width) / 2.0f, (View.height + height) / 2.0f);
+		batch.end();
+
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 
 		// siempre se debe iniciar el color en blanco.
 		shape.setColor(1, 1, 1, 1);
@@ -81,40 +93,24 @@ public class Game implements Screen {
 	}
 
 	public void update(float delta) {
-		Time.update(delta);
-
 		platformSystem.update();
 		ball.update(platformSystem.platforms);
 
-		if(currentColor == null)
-			currentColor = new Color(colors[colorIndex]);
-
-		float vr = (colors[nextColorIndex].r - currentColor.r) * 0.0015f;
-		float vg = (colors[nextColorIndex].g - currentColor.g) * 0.0015f;
-		float vb = (colors[nextColorIndex].b - currentColor.b) * 0.0015f;
-
-		currentColor.add(vr, vg, vb, 0);
-
-		colorChangeTimer -= Time.delta;
-		if(colorChangeTimer <= 0) {
-			nextColorIndex = MathUtils.random(colors.length - 1);
-			colorChangeTimer = COLOR_CHANGE_FREQ;
-		}
-
-		drawingColor.set(currentColor).mul(1.5f);
+		score += delta;
 
 		ParticleSystem.update(platformSystem.platforms);
 		Input.update();
-	}
 
-	public static Color getDrawColor() {
-		return drawingColor;
+		if(ball.y < - 50 || ball.isDeath()) {
+			Main.instance.toGameOver((int) score);
+		}
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		camera.setToOrtho(false, 480, (float) height / width * 480);
 		shape.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(camera.combined);
 
 		View.height = (float) height / width * 480;
 		View.width 	= 480;

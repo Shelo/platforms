@@ -1,5 +1,6 @@
 package cl.jara.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 
 public class Input implements InputProcessor {
@@ -18,23 +19,37 @@ public class Input implements InputProcessor {
 
 	public static void update() {
 		if(rightButtonDown)
-			horizontalAxis += (1 - horizontalAxis) * 0.1f;
+			horizontalAxis = 1;
 
 		if(leftButtonDown)
-			horizontalAxis += ((- 1) - horizontalAxis) * 0.1f;
+			horizontalAxis = -1;
 
 		if(!leftButtonDown && !rightButtonDown)
-			horizontalAxis += (0 - horizontalAxis) * 0.1f;
+			horizontalAxis = 0;
 
-		if(touchInitY - touchDraggedY > 50)
+		if(touchInitY - touchDraggedY > 25)
 			horizontalAxis = 0;
 
 		passThrowButton = false;
 	}
 
+	public static void reset() {
+		leftButtonDown = false;
+		rightButtonDown = false;
+		passThrowButton = false;
+		touchInitY = 0;
+		touchDraggedY = 0;
+		horizontalAxis = 0;
+		instance = new Input();
+	}
+
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		screenX = (int) (View.width / Gdx.graphics.getWidth() * screenX);
+		screenY = (int) (View.height / Gdx.graphics.getHeight() * screenY);
+
 		screenY = (int) View.height - screenY;
+
 		touchDraggedY 	= screenY;
 		touchInitY 		= screenY;
 
@@ -43,11 +58,20 @@ public class Input implements InputProcessor {
 		else
 			leftButtonDown = true;
 
+		if(rightButtonDown && leftButtonDown) {
+			passThrowButton = true;
+			rightButtonDown = false;
+			leftButtonDown = false;
+		}
+
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		screenX = (int) (View.width / Gdx.graphics.getWidth() * screenX);
+		screenY = (int) (View.height / Gdx.graphics.getHeight() * screenY);
+
 		screenY = (int) View.height - screenY;
 
 		if(screenX > View.width / 2) {
@@ -56,7 +80,7 @@ public class Input implements InputProcessor {
 			leftButtonDown = false;
 		}
 
-		if(touchInitY - screenY > 50) {
+		if(touchInitY - screenY > 25) {
 			passThrowButton = true;
 			touchDraggedY = 0;
 			touchInitY = 0;
@@ -67,6 +91,9 @@ public class Input implements InputProcessor {
 	}
 
 	@Override public boolean touchDragged(int screenX, int screenY, int pointer) {
+		screenX = (int) (View.width / Gdx.graphics.getWidth() * screenX);
+		screenY = (int) (View.height / Gdx.graphics.getHeight() * screenY);
+
 		touchDraggedY = View.height - screenY;
 
 		if(screenX > View.width / 2) {
