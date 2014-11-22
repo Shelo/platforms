@@ -1,11 +1,13 @@
 package cl.jara.game;
 
 public interface ActionResolver {
-	public boolean getSignedInGPGS();
-	public void loginGPGS();
-	public void submitScoreGPGS(int score);
-	public void unlockAchievementGPGS(String achievementId);
-	public void getLeaderboardGPGS();
-	public void getAchievementsGPGS();
-	public void showAchievementsGPGS();
+	public boolean getSignedIn();
+	public void login();
+	public void submitScore(int score);
+	public void unlockAchievement(String code);
+	public void getLeaderboard();
+	public void getAchievements();
+	public void showAchievements();
+	public void incrementAchievement(String code, int steps);
+	public void showLeaderboards();
 }

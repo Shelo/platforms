@@ -1,5 +1,6 @@
 package cl.jara.platforms;
 
+import cl.jara.game.AchievementManager;
 import cl.jara.game.Ball;
 import cl.jara.game.Time;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -33,6 +34,11 @@ public abstract class Platform {
 
 	public void simpleMove() {
 		y += BASE_SPEED * Time.delta;
+	}
+
+	public void passThrough(Ball ball) {
+		solid = false;
+		AchievementManager.passThrough();
 	}
 
 	public void onCreate() {}

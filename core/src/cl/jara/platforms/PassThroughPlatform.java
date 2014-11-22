@@ -24,7 +24,7 @@ public class PassThroughPlatform extends Platform {
 	@Override
 	public void onCollisionStay(Ball ball, float ballX) {
 		if(Input.passThrowButton)
-			solid = false;
+			passThrough(ball);
 	}
 
 	@Override

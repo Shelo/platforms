@@ -29,9 +29,9 @@ public class CentricDeathPlatform extends Platform {
 
 		if(Input.passThrowButton) {
 			if(ballX < EXTREME_MARGIN)
-				solid = false;
+				passThrough(ball);
 			else if(ballX > getWidth() - EXTREME_MARGIN)
-				solid = false;
+				passThrough(ball);
 		}
 	}
 

@@ -12,12 +12,12 @@ public class Ball {
 	public static final float RADIUS = 10;
 	public static final float SPEED = 350;
 
+	int platformsTouched;
+	Platform lastCollide;
 	public float vx;
 	public float vy;
 	public float x;
 	public float y;
-
-	Platform lastCollide;
 	boolean froze;
 	boolean death;
 
@@ -27,7 +27,6 @@ public class Ball {
 	}
 
 	public void update(ArrayList<Platform> platforms) {
-
 		// actualizar movimiento vertical.
 
 		vy += Game.GRAVITY;
@@ -38,7 +37,7 @@ public class Ball {
 			vx = Input.horizontalAxis * SPEED;
 
 		// revisar colision con plataformas.
-		for (Platform platform : platforms)
+		for(Platform platform : platforms)
 			if (Intersector.intersectRectangles(
 					new Rectangle(x - RADIUS, y - RADIUS, RADIUS * 2, RADIUS),
 					new Rectangle(platform.x, platform.y, platform.getWidth(), platform.getHeight()),
@@ -79,6 +78,7 @@ public class Ball {
 						lastCollide.onCollisionEnter(this, x - platform.x);
 						if(lastCollide.isParticleSpawner())
 							ParticleSystem.genCone(x, y, 15);
+						platformsTouched++;
 					}
 				}
 			} else {
@@ -110,6 +110,7 @@ public class Ball {
 	 * Make the ball jump. Caution: the event onCollisionStay will not be triggered.
 	 */
 	public void bounce() {
+		AchievementManager.bounce();
 		vy = BOUNCE_HEIGHT;
 	}
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class Game implements Screen {
 	public static Game instance;
 
+	public static final float BORDER_TOLERANCE = 50;
 	public static final float GRAVITY = -9.8f;
 
 	OrthographicCamera camera;
@@ -42,6 +43,7 @@ public class Game implements Screen {
 		Gdx.input.setInputProcessor(Input.instance);
 
 		ParticleSystem.clear();
+		AchievementManager.reset();
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 	}
@@ -101,7 +103,10 @@ public class Game implements Screen {
 		ParticleSystem.update(platformSystem.platforms);
 		Input.update();
 
-		if(ball.y < - 50 || ball.isDeath()) {
+		if(ball.y < - Game.BORDER_TOLERANCE || ball.isDeath() || ball.y > View.height + Game.BORDER_TOLERANCE) {
+			if(ball.platformsTouched == 0)
+				AchievementManager.instantGameOver();
+
 			Main.instance.toGameOver((int) score);
 		}
 	}

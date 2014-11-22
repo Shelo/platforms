@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Menu implements Screen, InputProcessor {
+	public static final String RANK = "Leaders";
+	public static final String ACHIEVEMENTS = "Achievements";
 	private static final String CAPTION = "Bouncer";
 	private static final String PLAY = "PLAY";
 
@@ -31,7 +33,7 @@ public class Menu implements Screen, InputProcessor {
 		batch = new SpriteBatch();
 		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		buttonBounds 	= Assets.uilittle.getBounds(Objectives.TITLE);
+		buttonBounds 	= Assets.uilittle.getBounds(RANK);
 		playHeight 		= Assets.uititle.getBounds(PLAY).height;
 		titleWidth 		= Assets.uititle.getBounds(CAPTION).width;
 		playWidth 		= Assets.uititle.getBounds(PLAY).width;
@@ -69,10 +71,10 @@ public class Menu implements Screen, InputProcessor {
 		Assets.uititle.draw(batch, PLAY, (View.width - playWidth) / 2.0f, View.height / 2 + playHeight / 2);
 
 		Assets.uilittle.setColor(Color.WHITE);
-		Assets.uilittle.draw(batch, Achievements.TITLE, 20, View.height + buttonBounds.height - 20);
+		Assets.uilittle.draw(batch, ACHIEVEMENTS, 20, View.height + buttonBounds.height - 20);
 
 		Assets.uilittle.setColor(Main.getDrawColor());
-		Assets.uilittle.draw(batch, Objectives.TITLE, View.width - buttonBounds.width + 20,
+		Assets.uilittle.draw(batch, RANK, View.width - Assets.uilittle.getBounds(RANK).width - 20,
 				View.height + buttonBounds.height - 20);
 		batch.end();
 
@@ -115,7 +117,9 @@ public class Menu implements Screen, InputProcessor {
 			Main.instance.toGame();
 		} else if(screenY < - buttonBounds.height + 40) {
 			if(screenX < View.width / 2) {
-				Main.instance.actionResolver.showAchievementsGPGS();
+				Main.instance.actionResolver.showAchievements();
+			} else {
+				Main.instance.actionResolver.showLeaderboards();
 			}
 		}
 

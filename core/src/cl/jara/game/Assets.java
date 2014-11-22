@@ -20,10 +20,10 @@ public class Assets {
 		uititle = new BitmapFont(Gdx.files.internal("fonts/berlin100.fnt"));
 		uititle.setScale(1, -1);
 
-		gameScore = new BitmapFont(Gdx.files.internal("fonts/berlin100.fnt"));
-		gameScore.setScale(2, 2);
+		gameScore = new BitmapFont(Gdx.files.internal("fonts/berlin200.fnt"));
+		gameScore.setScale(1, 1);
 
-		gameScoreI = new BitmapFont(Gdx.files.internal("fonts/berlin100.fnt"));
-		gameScoreI.setScale(2, - 2);
+		gameScoreI = new BitmapFont(Gdx.files.internal("fonts/berlin200.fnt"));
+		gameScoreI.setScale(1, - 1);
 	}
 }

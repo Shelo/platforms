@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Main extends com.badlogic.gdx.Game {
-	ActionResolver actionResolver;
 	public static final float COLOR_CHANGE_FREQ = 5;
 
 	public static Main instance;
+	ActionResolver actionResolver;
 
 	private static Color drawingColor;
 	private static Color currentColor;
@@ -38,8 +38,8 @@ public class Main extends com.badlogic.gdx.Game {
 		Assets.load();
 
 		// establecer variables.
-		nextColorIndex 	= MathUtils.random(colors.length - 1);
-		colorIndex 		= MathUtils.random(colors.length - 1);
+		nextColorIndex = MathUtils.random(colors.length - 1);
+		colorIndex = MathUtils.random(colors.length - 1);
 		colorChangeTimer = COLOR_CHANGE_FREQ;
 		drawingColor = new Color();
 
@@ -47,16 +47,17 @@ public class Main extends com.badlogic.gdx.Game {
 	}
 
 	public void toGame() {
-		if(actionResolver.getSignedInGPGS())
-			actionResolver.unlockAchievementGPGS("CgkI6JzeotQdEAIQAg");
-
-		System.out.println("TO GAME : " + actionResolver.getSignedInGPGS());
-
+		// desbloquea el achievement Begginner's Lucks.
+		if(actionResolver.getSignedIn())
+			actionResolver.unlockAchievement("CgkI6JzeotQdEAIQAg");
 		setScreen(new Game());
 	}
 
 	public void toGameOver(int score) {
 		setScreen(new GameOver(score));
+
+		if(actionResolver.getSignedIn())
+			actionResolver.submitScore(score);
 	}
 
 	public void toMenu() {

@@ -11,7 +11,8 @@ import java.util.Random;
 public class PlatformSystem {
 	public static final float APPEARING_FREQUENCY = 0.5f;
 
-	ArrayList<Platform> platforms = new ArrayList<Platform>();
+	ArrayList<Platform> safePlatforms 	= new ArrayList<Platform>();
+	ArrayList<Platform> platforms 		= new ArrayList<Platform>();
 	Random random = new Random();
 
 	public float appearingFactor = 1;
@@ -29,6 +30,7 @@ public class PlatformSystem {
 			new LeftBlockingPlatform(0, 0),
 			new RightBlockingPlatform(0, 0),
 			new ZigZagPlatform(0, 0),
+			new BreakablePlatform(0, 0),
 	};
 
 	public void update() {
@@ -38,11 +40,14 @@ public class PlatformSystem {
 		} else
 			appearingTimer -= Time.delta;
 
+		platforms.addAll(safePlatforms);
+		safePlatforms.clear();
+
 		for(int i = platforms.size() - 1; i > - 1; i--) {
 			Platform platform = platforms.get(i);
 			platform.update();
 
-			if(platform.y > View.height)
+			if(platform.y > View.height + Game.BORDER_TOLERANCE)
 				platforms.remove(i);
 		}
 	}
@@ -76,5 +81,9 @@ public class PlatformSystem {
 
 	public void add(Platform platform) {
 		platforms.add(platform);
+	}
+
+	public void addSafely(Platform platform) {
+		safePlatforms.add(platform);
 	}
 }

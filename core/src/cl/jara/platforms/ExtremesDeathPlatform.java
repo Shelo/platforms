@@ -24,7 +24,7 @@ public class ExtremesDeathPlatform extends Platform {
 
 		if(Input.passThrowButton) {
 			if(ballX > EXTREME_MARGIN && ballX < getWidth() - EXTREME_MARGIN)
-				solid = false;
+				passThrough(ball);
 		}
 	}
 

@@ -40,12 +40,12 @@ public class AndroidLauncher extends AndroidApplication implements ActionResolve
 	}
 
 	@Override
-	public boolean getSignedInGPGS() {
+	public boolean getSignedIn() {
 		return gameHelper.isSignedIn();
 	}
 
 	@Override
-	public void loginGPGS() {
+	public void login() {
 		try {
 			runOnUiThread(new Runnable(){
 				public void run() {
@@ -58,27 +58,36 @@ public class AndroidLauncher extends AndroidApplication implements ActionResolve
 	}
 
 	@Override
-	public void submitScoreGPGS(int score) {
-
+	public void submitScore(int score) {
+		Games.Leaderboards.submitScore(gameHelper.getApiClient(), "CgkI6JzeotQdEAIQCQ", score);
 	}
 
 	@Override
-	public void unlockAchievementGPGS(String achievementId) {
+	public void unlockAchievement(String achievementId) {
 		Games.Achievements.unlock(gameHelper.getApiClient(), achievementId);
 	}
 
+	public void incrementAchievement(String code, int steps) {
+		Games.Achievements.increment(gameHelper.getApiClient(), code, steps);
+	}
+
 	@Override
-	public void getLeaderboardGPGS() {
+	public void showLeaderboards() {
+		Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), "CgkI6JzeotQdEAIQCQ");
+	}
+
+	@Override
+	public void getLeaderboard() {
 
 	}
 
 	@Override
-	public void getAchievementsGPGS() {
+	public void getAchievements() {
 
 	}
 
 	@Override
-	public void showAchievementsGPGS() {
+	public void showAchievements() {
 		startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), 1);
 	}
 
