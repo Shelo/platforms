@@ -14,6 +14,9 @@ public class Input implements InputProcessor {
 	private static float touchInitY;
 	private static float touchDraggedY;
 
+	private static int touchX;
+	private static int touchY;
+
 	// crear singleton.
 	static { instance = new Input(); }
 
@@ -31,6 +34,9 @@ public class Input implements InputProcessor {
 			horizontalAxis = 0;
 
 		passThrowButton = false;
+
+		touchX = -1;
+		touchY = -1;
 	}
 
 	public static void reset() {
@@ -43,12 +49,23 @@ public class Input implements InputProcessor {
 		instance = new Input();
 	}
 
+	public static int getTouchX() {
+		return touchX;
+	}
+
+	public static int getTouchY() {
+		return touchY;
+	}
+
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		screenX = (int) (View.width / Gdx.graphics.getWidth() * screenX);
 		screenY = (int) (View.height / Gdx.graphics.getHeight() * screenY);
 
 		screenY = (int) View.height - screenY;
+
+		touchX = screenX;
+		touchY = screenY;
 
 		touchDraggedY 	= screenY;
 		touchInitY 		= screenY;

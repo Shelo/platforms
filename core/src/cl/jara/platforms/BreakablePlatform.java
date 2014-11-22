@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class BreakablePlatform extends Platform {
 	private static final int MIDDLE_MEDIUM = 4;
-	public float width = 150;
+	public float width = 200;
 	public int factor;
 
 	public BreakablePlatform(float x, float y) {
@@ -30,9 +30,6 @@ public class BreakablePlatform extends Platform {
 			width /= 2;
 		}
 	}
-
-	@Override public void onCollisionStay(Ball ball, float ballX) { }
-	@Override public void onCollisionExit(Ball ball) { }
 
 	@Override
 	public void render(ShapeRenderer shape) {
@@ -66,4 +63,7 @@ public class BreakablePlatform extends Platform {
 	public Platform copy(float x, float y) {
 		return new BreakablePlatform(x, y);
 	}
+
+	@Override public void onCollisionStay(Ball ball, float ballX) { }
+	@Override public void onCollisionExit(Ball ball) { }
 }

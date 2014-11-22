@@ -51,7 +51,7 @@ public class Game implements Screen {
 	@Override
 	public void render(float delta) {
 		// actualizar todo el contenido primero.
-		update(delta);
+		update();
 
 		// limpiar buffers.
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -94,11 +94,11 @@ public class Game implements Screen {
 		ParticleSystem.render(shape);
 	}
 
-	public void update(float delta) {
+	public void update() {
 		platformSystem.update();
 		ball.update(platformSystem.platforms);
 
-		score += delta;
+		score += Time.delta;
 
 		ParticleSystem.update(platformSystem.platforms);
 		Input.update();

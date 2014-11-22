@@ -31,6 +31,7 @@ public class PlatformSystem {
 			new RightBlockingPlatform(0, 0),
 			new ZigZagPlatform(0, 0),
 			new BreakablePlatform(0, 0),
+			new InputPlatform(0),
 	};
 
 	public void update() {
@@ -63,8 +64,7 @@ public class PlatformSystem {
 	public void spawn() {
 		int index = random.nextInt(platformsTemplates.length);
 
-		float x = MathUtils.random(Ball.RADIUS * 2,
-				View.width - platformsTemplates[index].getWidth() - Ball.RADIUS * 2);
+		float x = MathUtils.random(View.width - platformsTemplates[index].getWidth());
 		float y = - 100;
 
 		Platform platform = platformsTemplates[index].copy(x, y);

@@ -33,7 +33,7 @@ public class Ball {
 		y += vy * Time.delta;
 
 		// actualizar movimiento horizontal.
-		if (!froze)
+		if(!froze)
 			vx = Input.horizontalAxis * SPEED;
 
 		// revisar colision con plataformas.

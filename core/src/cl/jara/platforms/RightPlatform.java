@@ -2,6 +2,7 @@ package cl.jara.platforms;
 
 import cl.jara.game.Ball;
 import cl.jara.game.Main;
+import cl.jara.game.View;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -11,6 +12,9 @@ public class RightPlatform extends Platform {
 
 	public RightPlatform(float x, float y) {
 		super(x, y);
+
+		if(x >= View.width - getWidth() - Ball.RADIUS * 2)
+			x = View.width - getWidth() - Ball.RADIUS * 2;
 	}
 
 	@Override
