@@ -7,6 +7,7 @@ public class Time {
 
 	public static void update(float delta) {
 		Time.delta = delta * factor;
+		time += delta;
 		factor = 1;
 	}
 }

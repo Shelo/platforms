@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 
+/**
+ * Experimental.
+ */
 public class InputPlatform extends Platform {
 	private static final int SCREEN_MARGIN = 20;
 	private static final int MARGIN = 4;

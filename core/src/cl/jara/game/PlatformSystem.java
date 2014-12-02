@@ -31,7 +31,7 @@ public class PlatformSystem {
 			new RightBlockingPlatform(0, 0),
 			new ZigZagPlatform(0, 0),
 			new BreakablePlatform(0, 0),
-			new InputPlatform(0),
+//			new InputPlatform(0),
 	};
 
 	public void update() {

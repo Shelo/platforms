@@ -21,6 +21,7 @@ public class Game implements Screen {
 	Ball ball;
 
 	public PlatformSystem platformSystem;
+	public SpheresSystem sphereSystem;
 
 	public Game() {
 		instance = this;
@@ -35,7 +36,8 @@ public class Game implements Screen {
 		ball = new Ball(View.width / 2, View.height - 100);
 
 		// inicializar sistemas.
-		platformSystem = new PlatformSystem();
+		platformSystem 	= new PlatformSystem();
+		sphereSystem	= new SpheresSystem();
 
 		Input.reset();
 
@@ -92,9 +94,11 @@ public class Game implements Screen {
 		ball.render(shape);
 		platformSystem.render(shape);
 		ParticleSystem.render(shape);
+		sphereSystem.render(batch);
 	}
 
 	public void update() {
+		sphereSystem.update();
 		platformSystem.update();
 		ball.update(platformSystem.platforms);
 

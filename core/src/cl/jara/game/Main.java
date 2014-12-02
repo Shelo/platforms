@@ -84,7 +84,9 @@ public class Main extends com.badlogic.gdx.Game {
 
 		drawingColor.set(currentColor).mul(1.5f);
 		arcRadStart += 90 * Time.delta;
-		if(getScreen() != null) getScreen().render(Gdx.graphics.getDeltaTime());
+
+		if(getScreen() != null)
+			getScreen().render(Gdx.graphics.getDeltaTime());
 	}
 
 	public static Color getCurrentColor() {
@@ -98,6 +100,13 @@ public class Main extends com.badlogic.gdx.Game {
 	@Override
 	public void resume () {
 		Assets.load();
-		if (getScreen() != null) getScreen().resume();
+		if(getScreen() != null)
+			getScreen().resume();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		Assets.dispose();
 	}
 }

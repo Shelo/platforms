@@ -13,8 +13,8 @@ public class RightPlatform extends Platform {
 	public RightPlatform(float x, float y) {
 		super(x, y);
 
-		if(x >= View.width - getWidth() - Ball.RADIUS * 2)
-			x = View.width - getWidth() - Ball.RADIUS * 2;
+		if(super.x >= View.width - getWidth() - Ball.RADIUS * 2)
+			super.x = View.width - getWidth() - Ball.RADIUS * 2;
 	}
 
 	@Override

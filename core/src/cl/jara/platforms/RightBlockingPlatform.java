@@ -47,8 +47,8 @@ public class RightBlockingPlatform extends Platform {
 	public RightBlockingPlatform(float x, float y) {
 		super(x, y);
 
-		if(x < Ball.RADIUS * 2)
-			x = Ball.RADIUS * 2;
+		if(super.x < Ball.RADIUS * 2)
+			super.x = Ball.RADIUS * 2;
 	}
 
 	@Override
