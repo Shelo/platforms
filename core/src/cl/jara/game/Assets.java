@@ -1,7 +1,6 @@
 package cl.jara.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class Assets {
@@ -10,9 +9,6 @@ public class Assets {
 	public static BitmapFont uifont;
 	public static BitmapFont gameScore;
 	public static BitmapFont gameScoreI;
-
-	public static Texture sphere;
-	public static Texture sphereMask;
 
 	public static void load() {
 		uilittle = new BitmapFont(Gdx.files.internal("fonts/berlin100.fnt"));
@@ -29,14 +25,9 @@ public class Assets {
 
 		gameScoreI = new BitmapFont(Gdx.files.internal("fonts/berlin200.fnt"));
 		gameScoreI.setScale(1, - 1);
-
-		sphere = new Texture("sphere.png");
-		sphereMask = new Texture("mask.png");
 	}
 
 	public static void dispose() {
-		sphere.dispose();
-		sphereMask.dispose();
 		uititle.dispose();
 		uifont.dispose();
 		gameScore.dispose();
